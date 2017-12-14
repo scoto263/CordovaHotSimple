@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <!--<link rel="stylesheet" href="css/spinners.css" type="text/css">-->
+    <style type="text/css">
+
+    </style>
+</head>
+<body onload="dynamicLoad()">
+<div class="bg">
+    <div class="grid">
+        <div class="cell">
+            <div class="card">
+                <span class="hexdots-loader">Loading&#8230;</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hidden">www.win
+
+    <h1>哈哈哈阿斯顿发生的发生地方撒发斯蒂芬的房间里</h1><br><br><br>
+    <h1 onclick="dynamicLoad()">检查更新</h1>
+    <h1 onclick="getLocation()">定位</h1>
+
+    <h1 onclick="jumpMap()">跳转到百度地图</h1>
+
+    <h1 onclick="goindex()">不更新直接进入主页</h1>
+    <h2>3</h2>
+
+    <img src="https://www.evget.com/images/logo/logo_evget.jpg">
+    
+    <a href="http://www.163.com">跳转</a>
+
+
+    <h6>
+        无需安装：1，<br>
+
+        没有更新的内容：2，<br>
+
+        下载应用程序配置失败：- 1，<br>
+
+        应用程序生成版本太低：- 2，<br>
+
+        无法下载内容清单：- 3，<br>
+
+        无法下载更新文件：- 4，<br>
+
+        无法将加载的文件移动到安装文件夹：- 5，<br>
+
+        更新无效：- 6，<br>
+
+        无法复制前一版本的文件：- 7，<br>
+
+        无法复制新的内容文件：- 8，<br>
+
+        未找到应用程序配置的本地版本：- 9，<br>
+
+        未找到清单的本地版本：- 10，<br>
+
+        未找到应用程序配置的加载版本：- 11，<br>
+
+        未找到清单的加载版本：- 12，<br>
+
+        在外部存储上安装资产失败：- 13，<br>
+
+        无法在下载时安装：- 14，<br>
+
+        无法在安装过程中下载更新：- 15，<br>
+
+        安装已在进行中：- 16，<br>
+
+        下载已在进行中：- 17，<br>
+
+        尚未安装的资产文件夹：- 18，<br>
+
+        新应用程序配置无效：- 19<br>
+    </h6>
+</div>
+</body>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript">
+	var index = 0;
+            function dynamicLoad()
+            {
+                setTimeout(Updateh5, 500);
+                index++;
+            }
+            //注册回退事件
+            document.addEventListener("deviceready", onDeviceReady, false);
+                function onDeviceReady() {
+                    //navigator.splashscreen.hide();
+                        document.addEventListener("backbutton", onBackKeyDown, false);
+                }
+
+                //回退触发事件！
+                            function onBackKeyDown() {
+                                var json={};
+                                json.toast="双击退出!";
+                                var action="showToast";
+                                extrainfo.callMethodNoBack(action,json);  //点一次淡出提示
+
+
+                                document.removeEventListener("backbutton", onBackKeyDown, false); // 注销返回键
+                                document.addEventListener("backbutton", exitApp, false);//绑定退出事件
+
+                                // 500毫秒后重新注册
+                                var intervalID = window.setInterval(function() {
+                                    window.clearInterval(intervalID);
+                                    document.removeEventListener("backbutton", exitApp, false); // 注销返回键
+                                    document.addEventListener("backbutton", onBackKeyDown, false); // 返回键
+                                }, 500);
+                            }
+
+                            //退出程序
+                            function exitApp(){
+                                navigator.app.exitApp();
+                            }
+           function Updateh5(){
+                chcp.fetchUpdate(updateCallback);
+           }
+
+
+            function getLocation(){
+                var action = "getLocation";
+				app.callMethodNoParams(action, function(json){
+
+                     console.log('data: ' + JSON.stringify(json));
+
+				});
+           }
+
+
+
+           function alarmUtils(){
+                var action = "alarmUtils";
+				var json = {};
+                json.messagebody="消息体";
+                json.messagetitle="消息头";
+				app.callMethodNoBack(action, json);
+           }
+
+           function goindex(){
+                location.href="H5/index.html";
+           }
+
+           function updateCallback(error, data) {
+                           console.log('data: ' + JSON.stringify(error));
+                          if(error){
+                          	if(index>5){
+                          		location.href="H5/index.html";
+                          		return;
+                          	}
+                            switch(error.code)
+                            {
+                            case 2:
+                              location.href="H5/index.html";
+                              console.log("已经是最新的版本，跳去主页！！");
+                              //跳转到主页
+                              break;
+                              case -1:
+                                console.log("无法下载chcp.json版本文件！！！");
+                                dynamicLoad();
+                              break;
+
+                            case -4:
+                              console.log("无法下载更新文件！！！");
+                              dynamicLoad();
+                              break;
+                            case -3:
+                              console.log("无法下载清单文件！！！");
+                              dynamicLoad();
+                              break;
+
+                             case -17:
+                              console.log("正在检测版本中，请稍等！！！");
+                              break;
+
+                            }
+                           }else{
+                                console.log("更新成功，跳入主页吧！");
+                           }
+
+           }
+
+
+           function jumpMap(){
+                var action = "jumpMapView";
+				var json = {};
+                json.messagebody="消息体";
+                json.messagetitle="消息头";
+				app.callMethodNoBack(action, json);
+           }
+
+
+</script>
+</html>

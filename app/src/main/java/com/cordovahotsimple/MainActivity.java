@@ -1,12 +1,15 @@
 package com.cordovahotsimple;
 
-import android.app.Activity;
+
 import android.os.Bundle;
 
-public class MainActivity extends Activity {
+import org.apache.cordova.CordovaActivity;
+
+public class MainActivity extends CordovaActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadUrl(launchUrl);
     }
 }
